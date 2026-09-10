@@ -1,0 +1,48 @@
+name: "Poka-Yoke Deployment Quality Control Gate"
+
+on:
+  push:
+    branches: [ "main", "staging" ]
+  pull_request:
+    branches: [ "main", "staging" ]
+
+jobs:
+  security-and-lint-gate:
+    name: "Enforce Automated Validation Checks"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Transferred Codebase"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Initialize Python Environment"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: "Install System Validation Toolsets"
+        run: |
+          python -m pip install --upgrade pip
+          pip install black flake8
+
+      - name: "Rule 1 Enforced: Black Formatting Compliance Check"
+        run: |
+          black --check django-backend-validation/
+
+      - name: "Rule 2 Enforced: Flake8 Structural Syntax Check"
+        run: |
+          flake8 django-backend-validation/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 django-backend-validation/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: "Rule 3 Enforced: Hardcoded Secrets Scan (Fail-Closed Logic)"
+        run: |
+          echo "Scanning application layers for unauthorized string keys..."
+          if grep -rE "(secret_key^|api_key^|password^|auth_token^|jwt_secret)\s*=\s*['\"][a-zA-Z0-9_\-]{10,}['\"]" django-backend-validation/; then
+            echo "CRITICAL WARNING: Hardcoded unencrypted secrets detected in raw system files!"
+            echo "Halting deployment execution sequence immediately to quarantine system files."
+            exit 1
+          else
+            echo "No exposed string credential footprints discovered. Gate cleared."
+          fi

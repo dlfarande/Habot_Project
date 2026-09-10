@@ -1,0 +1,5 @@
+"Source Parameter Name","Target Parameter Schema Field Name","Data Configuration Enforced Type","Binary Yes No Library Ingestion Target Mapping Status"
+"submission_id","submission_identifier","STRING (Secure Identification Hash Value)","Enforced Unique Record Identity Parameter Field"
+"student_name","student_legal_name","STRING (Full Legal Text Characters Value)","Enforced Structural Verification Parameter Field"
+"has_learning_difficulty","has_learning_difficulty","BOOLEAN (True or False Logic Evaluation)","Evaluated Binary Yes No Logic Input Evaluation Variable"
+"requires_lsa_matching","requires_learning_support_assistant_matching","BOOLEAN (True or False Logic System Output)","Deterministic Dependent Execution Transformation System Mapping Value"

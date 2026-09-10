@@ -1,0 +1,6 @@
+Target_Field,Source_JSON_Property,Data_Type,Validation_Bounds,Null_Constraints,Text_Wrapping 
+multi_tenant_id,payload.tenant_context.auth_id,VARCHAR(64),Strict Alpha-Numeric,NOT NULL,ENABLED 
+student_onboarding_status,payload.user.registration_state,BOOLEAN,Deterministic Binary Logic,NOT NULL,ENABLED 
+matching_criteria_eval,payload.learning_support_assistant.rules,BOOLEAN,True or False Evaluation,NOT NULL,ENABLED 
+application_programming_interface_key,payload.credentials.token_hash,VARCHAR(256),Secret Quarantine Regex Pattern,NOT NULL,ENABLED 
+dataset_table_expiration,payload.bigquery.retention_days,INTEGER,Strictly Equal to 365,NOT NULL,ENABLED 

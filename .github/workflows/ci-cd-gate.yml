@@ -39,7 +39,7 @@ jobs:
       - name: "Rule 3 Enforced: Hardcoded Secrets Scan (Fail-Closed Logic)"
         run: |
           echo "Scanning application layers for unauthorized string keys..."
-          if grep -rE "(secret_key^|api_key^|password^|auth_token^|jwt_secret)\s*=\s*['\"][a-zA-Z0-9_\-]{10,}['\"]" django-backend-validation/; then
+          if grep -riE "(secret_key|api_key|password|auth_token|jwt_secret)\s*=\s*['\"][a-zA-Z0-9_\-]{10,}['\"]" django-backend-validation/; then
             echo "CRITICAL WARNING: Hardcoded unencrypted secrets detected in raw system files!"
             echo "Halting deployment execution sequence immediately to quarantine system files."
             exit 1

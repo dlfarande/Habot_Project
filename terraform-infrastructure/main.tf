@@ -1,9 +1,9 @@
 terraform {
-  required_version = "^>= 1.5.0"
+  required_version = ">= 1.5.0"
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "~^> 5.0"
+      version = "~> 5.0"
     }
   }
 }
@@ -51,9 +51,9 @@ EOF
 }
 
 resource "google_bigquery_row_access_policy" "learning_support_assistant_matching_filter" {
-  project     = var.google_cloud_platform_project_identifier
-  dataset_id  = google_bigquery_dataset.staged_enforced_dataset.dataset_id
-  table_id    = google_bigquery_table.student_onboarding_table.table_id
-  policy_id   = "learning_support_assistant_analyst_row_filter"
+  project          = var.google_cloud_platform_project_identifier
+  dataset_id       = google_bigquery_dataset.staged_enforced_dataset.dataset_id
+  table_id         = google_bigquery_table.student_onboarding_table.table_id
+  policy_id        = "learning_support_assistant_analyst_row_filter"
   filter_predicate = "requires_learning_support_assistant_matching = true"
 }
